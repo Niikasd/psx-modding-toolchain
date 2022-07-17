@@ -44,9 +44,15 @@ enum RawButtons
 
 struct GamepadBuffer
 {
-	char unk[0x20]; // 0x0
+	char unk[0x4]; // 0x0
+	unsigned short stickLX; // 0x4
+	unsigned short stickLY; // 0x6
+	char unk2[0x4];	// 0x8
+	unsigned short stickRX; // 0xC
+	unsigned short stickRY; // 0xE	
+	char unk3[0x10]; // 0x10	
 	unsigned short * rawController; // 0x20
-    char unk2[0x2C]; // 0x24
+    char unk4[0x2C]; // 0x24
 };
 
 struct GamepadSystem
@@ -55,17 +61,11 @@ struct GamepadSystem
 };
 
 void DrawText(char * text, int x, int y, int size, int color);
-int ND_MATH_Sin(unsigned int angle);
-void GameplayUpdateLoop();
-int printf(const char * format, ...);
 
 // 0x8008D2AC - NTSC-U
 // 0x8008D644 - PAL
 // 0x800906B8 - NTSC-J
 extern unsigned int gameMode;
 extern struct GamepadSystem * gamepadSystem;
-
-// 0x800845a0 - NTSC-U
-extern int trigApprox[0x400];
 
 #endif
