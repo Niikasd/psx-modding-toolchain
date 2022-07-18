@@ -14,7 +14,7 @@ unsigned int original_map[] = {
 	RAW_BTN_L1,
 	RAW_BTN_L2,
 //	RAW_BTN_SELECT,
-//	RAW_BTN_START
+	RAW_BTN_START
 };
 
 char button[14][2] = {
@@ -31,7 +31,7 @@ char button[14][2] = {
 	"1",//L1
 	"2",//L2
 //	"-",//Select
-//	"-"//Start
+	"-"//Start
 };
 unsigned int coords[14][2] = {
 //	{20,170},//up
@@ -42,12 +42,12 @@ unsigned int coords[14][2] = {
 	{68,180},//square
 	{92,180},//circle
 	{80,173},//triangle
-	{75,160},//R1
-	{85,160},//R2
-	{25,160},//L1
-	{15,160},//L2
+	{80,160},//R1
+	{80,150},//R2
+	{20,160},//L1
+	{20,150},//L2
 //	{45,180},//Select
-//	{55,180}//Start
+	{51,180}//Start
 };
 
 void draw(int i)
@@ -59,10 +59,12 @@ void draw(int i)
 void DrawButtons(unsigned short * buttons)
 {
 	unsigned short curr_buttons = *buttons;
-	for (int i = 0; i < RAW_BTN_COUNT-6; i++)
+	for (int i = 0; i < RAW_BTN_COUNT-5; i++)
 	{
 		if ((curr_buttons & original_map[i]) == 0)
 			draw(i);
+		else
+			 DrawText(".", coords[i][0]+3, coords[i][1]-2, 2, 0xffff0000);
 	}
 }
 
@@ -70,7 +72,7 @@ void DrawAnalog(unsigned short * X, unsigned short * Y)
 {
 
     {
-    	int Xcoord = ((*X)/9)+8;
+    	int Xcoord = ((*X)/9)+9;
     	int Ycoord = ((*Y)/16)+170;
         DrawText(".", Xcoord, Ycoord, 2, 0xffff0000);
     }	
@@ -80,7 +82,8 @@ void inputDisplay_Main()
 {
 	if ((gameMode & 0x60000000) == 0)
 	{	
-		DrawText(".", 22,178, 2, 0xffff0000);
+		DrawText(".", 23,178, 2, 0xffff0000);
+
 		struct GamepadBuffer * controller = &gamepadSystem->gamepadBuffer[0];
 		DrawButtons(&controller->rawController[1]);
 		DrawAnalog(&controller->stickLX, &controller->stickLY);
